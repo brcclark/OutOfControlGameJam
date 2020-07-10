@@ -14,6 +14,7 @@ public class AnimalMovement : MonoBehaviour {
 	void Start() {
 		//choose a random start direction
 		startDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+		//Hi Nick
 		currentDirection = startDirection;
 	}
 
