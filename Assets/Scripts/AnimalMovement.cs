@@ -15,6 +15,7 @@ public class AnimalMovement : MonoBehaviour {
 		//choose a random start direction
 		startDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
 		//Hi Nick
+		//I'm changing something else as well to show merge conflicts
 		currentDirection = startDirection;
 	}
 
