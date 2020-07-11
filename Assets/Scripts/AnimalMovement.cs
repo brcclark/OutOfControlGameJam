@@ -13,6 +13,8 @@ public class AnimalMovement : MonoBehaviour {
 	public float penWallDistanceCheck = 5f;
 	public Vector2 startDirection;
 
+	PenManager penManager;
+
 	float cantEscapeTimer = 0f;
 	float maybeEscapesTimer = 0f;
 	float currentEscapeChance = 0f;
@@ -40,6 +42,7 @@ public class AnimalMovement : MonoBehaviour {
 		//Bringing in the player position
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 		pen = GameObject.FindGameObjectWithTag("Pen").transform;
+		penManager = GameObject.FindGameObjectWithTag("Pen").GetComponent<PenManager>();
 		cam = GameObject.FindObjectOfType<Camera>();
 
 		//choose a random start direction
@@ -49,11 +52,13 @@ public class AnimalMovement : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col) {
 		if (col.gameObject.CompareTag("Pen")) {
+			penManager.sheepInPenCount++;
 			inPen = true;
 		}
 	}
 	void OnTriggerExit2D(Collider2D col) {
 		if (col.gameObject.CompareTag("Pen")) {
+			penManager.sheepInPenCount--;
 			inPen = false;
 		}
 	}

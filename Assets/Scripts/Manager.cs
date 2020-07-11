@@ -13,10 +13,12 @@ public class Manager : MonoBehaviour {
 	public Text gameScoreUI;
 	public GameState State;
 
+	PenManager pen;
 	public float score;
 
 	void Start() {
 		State = GameState.Playing;
+		pen = GameObject.FindWithTag("Pen").GetComponent<PenManager>();
 	}
 	// Update is called once per frame
 	void Update() {
@@ -24,7 +26,7 @@ public class Manager : MonoBehaviour {
 	}
 	void UpdateScore() {
 		if (State == GameState.Playing) {
-			score += Time.deltaTime;
+			score = pen.penScore;
 			gameScoreUI.text = score.ToString();
 		}
 	}
