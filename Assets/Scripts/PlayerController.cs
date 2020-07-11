@@ -53,7 +53,6 @@ public class PlayerController : MonoBehaviour {
 				}
 				if (Input.GetButtonDown("Bark")) {
 					barkAudio.Play();
-					print("Bark!");
 				}
 				break;
 			case PlayerMovementState.Player_Dash:
