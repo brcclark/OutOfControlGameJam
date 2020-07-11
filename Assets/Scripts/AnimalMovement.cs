@@ -22,6 +22,7 @@ public class AnimalMovement : MonoBehaviour {
 	float lastMoveTime;
 	float currentMoveTimer;
 	float placidSheep = 0f;
+	float originalMoveSpeed = 0f;
 	Vector2 jailbreakDirection = Vector2.up;
 	Vector2 sheepPosPrevious;
 	Vector2 sheepCamPos;
@@ -46,6 +47,7 @@ public class AnimalMovement : MonoBehaviour {
 		penManager = GameObject.FindGameObjectWithTag("Pen").GetComponent<PenManager>();
 		cam = GameObject.FindObjectOfType<Camera>();
 
+		originalMoveSpeed = moveSpeed;
 		//choose a random start direction
 		startDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 		currentDirection = startDirection;
@@ -124,13 +126,18 @@ public class AnimalMovement : MonoBehaviour {
 	}
 
 	void PlayerVisible() {
-		if (Vector2.Distance(transform.position, player.position) <= scareDistance) {
-			sheepState = SheepState.Sheep_Avoid;
-			playerToSheepDir = (transform.position - player.position).normalized;
-			currentDirection = playerToSheepDir;
-			currentMoveTimer = 0f;
+		if ((Vector2.Distance(transform.position,player.position) <= (scareDistance / 2))) {
+			moveSpeed += 1f;
+			if(Vector2.Distance(transform.position, player.position) <= scareDistance){
+				sheepState = SheepState.Sheep_Avoid;
+				playerToSheepDir = (transform.position - player.position).normalized;
+				currentDirection = playerToSheepDir;
+				currentMoveTimer = 0f;
+			}
+			print(moveSpeed);
 		}
 		else {
+			moveSpeed = originalMoveSpeed;
 			sheepState = SheepState.Sheep_Wander;
 		}
 	}
