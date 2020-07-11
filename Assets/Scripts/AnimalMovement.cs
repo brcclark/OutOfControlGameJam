@@ -151,16 +151,15 @@ public class AnimalMovement : MonoBehaviour {
 		if (stopPlease == false) {
 			if (escapeCheckNumber <= (Mathf.Round(currentEscapeChance * 10f) / 10f)) {
 				stopPlease = true;
-				print("Escaped after " + maybeEscapesTimer + " seconds!");
 				sheepState = SheepState.Sheep_Escaping;
 			}
 		}
 	}
 	//add fox? that can herd them past those barriers
-	void Jailbreak(){
-		
+	void Jailbreak() {
+
 		//pick a new random? direction
-		if(jailbreakDirection != currentDirection){
+		if (jailbreakDirection != currentDirection) {
 			jailbreakDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 		}
 		//check to see if that will let them out of the pen
@@ -170,7 +169,7 @@ public class AnimalMovement : MonoBehaviour {
 		}
 		Debug.DrawRay(transform.position,jailbreakDirection * penWallDistanceCheck,Color.white);
 		//move in that direction until out of pen plus a time
-		if(!inPen){
+		if (!inPen) {
 			sheepState = SheepState.Sheep_Wander;
 		}
 	}

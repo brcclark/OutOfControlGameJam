@@ -30,7 +30,6 @@ public class Spawner : MonoBehaviour {
 		if (currentDifficultyTime >= diffucltyIncreaseTime) {
 			currentDifficulty++;
 			currentDifficultyTime = 0;
-			print("harder!");
 		}
 		else {
 			currentDifficultyTime += Time.deltaTime;
