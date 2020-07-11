@@ -12,6 +12,7 @@ public class AnimalMovement : MonoBehaviour {
 
 	float lastMoveTime;
 	float currentMoveTimer;
+	Vector2 playerToSheepDir;
 	Vector2 currentDirection;
 	Transform player;
 
@@ -29,6 +30,7 @@ public class AnimalMovement : MonoBehaviour {
 	void Update() {
 		//Determine the next position
 		//Check to see if the player is in our Zone of influence
+		PlayerVisible();
 		//Check to see if we are in the pen
 		//If none of that has happened, we'll just check to randomly change our direction
 		RandomPositionTimer();
@@ -52,4 +54,12 @@ public class AnimalMovement : MonoBehaviour {
 		transform.position += (Vector3)currentDirection * moveSpeed * Time.deltaTime;
 	}
 
+	void PlayerVisible() {
+		if(Vector2.Distance(transform.position,player.position) <= scareDistance){
+			playerToSheepDir = (transform.position- player.position).normalized;
+			print(Vector2.Distance(transform.position,player.position));
+			currentDirection = playerToSheepDir;
+			currentMoveTimer = 0f;
+		}
+	}
 }
