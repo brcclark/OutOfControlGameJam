@@ -8,8 +8,12 @@ public class Spawner : MonoBehaviour {
 	public int startingSheep = 3;
 	public float spawnInterval = 10;
 
+
 	Transform t;
 	float spawnTimer;
+	float diffucltyIncreaseTime = 5;
+	float currentDifficultyTime = 0;
+	int currentDifficulty = 0;
 	// Start is called before the first frame update
 	void Start() {
 		t = GetComponent<Transform>();
@@ -22,10 +26,19 @@ public class Spawner : MonoBehaviour {
 		Transform sp = Instantiate(sheep, new Vector3(Random.Range(-15f, 15f), Random.Range(-15f, 15f), 0), Quaternion.identity) as Transform;
 		sp.parent = t;
 	}
-
+	void CheckDifficulty() {
+		if (currentDifficultyTime >= diffucltyIncreaseTime) {
+			currentDifficulty++;
+			currentDifficultyTime = 0;
+			print("harder!");
+		}
+		else {
+			currentDifficultyTime += Time.deltaTime;
+		}
+	}
 	void CheckSheepSpawner() {
 		if ((spawnTimer < spawnInterval)) {
-			spawnTimer += Time.deltaTime;
+			spawnTimer += Time.deltaTime + Time.deltaTime * currentDifficulty;
 		}
 		else {
 			spawnTimer = 0;
@@ -35,6 +48,7 @@ public class Spawner : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
+		CheckDifficulty();
 		CheckSheepSpawner();
 	}
 }

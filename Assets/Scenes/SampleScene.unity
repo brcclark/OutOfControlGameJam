@@ -12327,6 +12327,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1182774707}
   - component: {fileID: 1182774708}
+  - component: {fileID: 1182774709}
   m_Layer: 0
   m_Name: Pen
   m_TagString: Pen
@@ -12374,6 +12375,21 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 15.79533, y: 17.257866}
   m_EdgeRadius: 0
+--- !u!114 &1182774709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1182774706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f20eb4cc76706de4cbcf2992aa3cff79, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sheepInPenCount: 0
+  inPenScoreMultiplyer: 0.1
+  penScore: 0
 --- !u!1001 &1257284566
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13124,6 +13140,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 570677798649475850, guid: ba9d0e331719bce4287e31c0ff7a7c29,
+        type: 3}
+      propertyPath: penManager
+      value: 
+      objectReference: {fileID: 1182774709}
     - target: {fileID: 570677798649475851, guid: ba9d0e331719bce4287e31c0ff7a7c29,
         type: 3}
       propertyPath: m_Name

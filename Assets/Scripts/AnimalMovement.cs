@@ -12,6 +12,8 @@ public class AnimalMovement : MonoBehaviour {
 	public float escapeDecayTime = 30f;
 	public Vector2 startDirection;
 
+	PenManager penManager;
+
 	float cantEscapeTimer = 0f;
 	float maybeEscapesTimer = 0f;
 	float currentEscapeChance = 0f;
@@ -38,6 +40,7 @@ public class AnimalMovement : MonoBehaviour {
 		//Bringing in the player position
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 		pen = GameObject.FindGameObjectWithTag("Pen").transform;
+		penManager = GameObject.FindGameObjectWithTag("Pen").GetComponent<PenManager>();
 		cam = GameObject.FindObjectOfType<Camera>();
 
 		//choose a random start direction
@@ -47,11 +50,13 @@ public class AnimalMovement : MonoBehaviour {
 
 	void OnTriggerEnter2D(Collider2D col) {
 		if (col.gameObject.CompareTag("Pen")) {
+			penManager.sheepInPenCount++;
 			inPen = true;
 		}
 	}
 	void OnTriggerExit2D(Collider2D col) {
 		if (col.gameObject.CompareTag("Pen")) {
+			penManager.sheepInPenCount--;
 			inPen = false;
 		}
 	}
@@ -131,11 +136,7 @@ public class AnimalMovement : MonoBehaviour {
 		//check to see if they escape. checking a random number against being under the currentEscapeChance
 		if (stopPlease == false) {
 			if (escapeCheckNumber <= (Mathf.Round(currentEscapeChance * 10f) / 10f)) {
-				// print("Let's get out of here!");
-				// print("Escape Check Number: " + escapeCheckNumber);
-				// print("Maybe Escapes Timer Number: " + (Mathf.Round(maybeEscapesTimer * 10f)/ 10f));
 				stopPlease = true;
-				print("Escaped after " + maybeEscapesTimer + " seconds!");
 			}
 			else {
 			}
