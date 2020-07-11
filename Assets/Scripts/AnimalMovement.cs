@@ -48,13 +48,11 @@ public class AnimalMovement : MonoBehaviour {
 	void OnTriggerEnter2D(Collider2D col) {
 		if (col.gameObject.CompareTag("Pen")) {
 			inPen = true;
-			print("Hey I'm in the pen");
 		}
 	}
 	void OnTriggerExit2D(Collider2D col) {
 		if (col.gameObject.CompareTag("Pen")) {
 			inPen = false;
-			print("Yo I'm out!");
 		}
 	}
 	// Update is called once per frame
@@ -111,7 +109,8 @@ public class AnimalMovement : MonoBehaviour {
 			playerToSheepDir = (transform.position - player.position).normalized;
 			currentDirection = playerToSheepDir;
 			currentMoveTimer = 0f;
-		}else {
+		}
+		else {
 			sheepState = SheepState.Sheep_Wander;
 		}
 	}
@@ -149,17 +148,17 @@ public class AnimalMovement : MonoBehaviour {
 			currentMoveTimer = 0f;
 			sheepState = SheepState.Sheep_In_Pen;
 			updatePreviousPosition += Time.deltaTime;
-			if(updatePreviousPosition >= 0.5f){
-			sheepPosPrevious = transform.position;
-			updatePreviousPosition = 0f;
+			if (updatePreviousPosition >= 0.5f) {
+				sheepPosPrevious = transform.position;
+				updatePreviousPosition = 0f;
 			}
 
 			if(Vector2.Distance(transform.position,pen.position) > 0.1f) {
 				currentDirection = (pen.position - transform.position).normalized;
-				if((updatePreviousPosition >= 0.1f) && Mathf.Abs(Vector2.Distance(transform.position, sheepPosPrevious)) < 0.3f){
+				if ((updatePreviousPosition >= 0.1f) && Mathf.Abs(Vector2.Distance(transform.position, sheepPosPrevious)) < 0.3f) {
 					currentDirection = Vector2.zero;
 				}
-				
+
 			}
 		}
 
