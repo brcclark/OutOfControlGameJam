@@ -14,10 +14,12 @@ public class AnimalMovement : MonoBehaviour {
 	float currentMoveTimer;
 	float updatePreviousPosition;
 	Vector2 sheepPosPrevious;
+	Vector2 sheepCamPos;
 	Vector2 playerToSheepDir;
 	Vector2 currentDirection;
 	Transform player;
 	Transform pen;
+	Camera cam;
 
 	enum SheepState { Sheep_Wander, Sheep_Avoid, Sheep_In_Pen }
 
@@ -30,6 +32,7 @@ public class AnimalMovement : MonoBehaviour {
 		//Bringing in the player position
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 		pen = GameObject.FindGameObjectWithTag("Pen").transform;
+		cam = GameObject.FindObjectOfType<Camera>();
 
 		//choose a random start direction
 		startDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
@@ -70,6 +73,8 @@ public class AnimalMovement : MonoBehaviour {
 				InPen();
 				break;
 		}
+		//Check to see if they are outside camera range
+		OnCamEdge();
 		//Update the position
 		UpdatePosition();
 	}
@@ -123,5 +128,11 @@ public class AnimalMovement : MonoBehaviour {
 			}
 		}
 
+	}
+	void OnCamEdge() {
+		sheepCamPos = cam.WorldToViewportPoint(transform.position);
+		if((sheepCamPos.x < 0f) || (sheepCamPos.x > 1f) || (sheepCamPos.y < 0f) || (sheepCamPos.y > 1f)){
+			currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+		}
 	}
 }
