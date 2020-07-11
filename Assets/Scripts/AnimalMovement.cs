@@ -7,9 +7,9 @@ public class AnimalMovement : MonoBehaviour {
 	public float moveSpeed = 5f;
 	//for Sheep timer to change direction
 	public float timeUntilDirChange = 3f;
-	public float cantEscapeTime = 10f;
+	public float cantEscapeTime = 2f;
 	public float scareDistance = 10f;
-	public float escapeDecayTime = 30f;
+	public float escapeDecayTime = 10f;
 	public float penWallDistanceCheck = 100f;
 	public Vector2 startDirection;
 
@@ -120,6 +120,7 @@ public class AnimalMovement : MonoBehaviour {
 
 	void UpdatePosition() {
 		transform.position += (Vector3)currentDirection * moveSpeed * Time.deltaTime;
+		Debug.DrawRay(transform.position,currentDirection * penWallDistanceCheck,Color.white);
 	}
 
 	void PlayerVisible() {
@@ -162,8 +163,9 @@ public class AnimalMovement : MonoBehaviour {
 		if (jailbreakDirection != currentDirection) {
 			jailbreakDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 		}
+		currentDirection = jailbreakDirection;
 		//check to see if that will let them out of the pen
-		Debug.DrawRay(transform.position,jailbreakDirection * penWallDistanceCheck,Color.white);
+		
 		if (!inPen) {
 			sheepState = SheepState.Sheep_Wander;
 		}
@@ -180,9 +182,9 @@ public class AnimalMovement : MonoBehaviour {
 
 			if (Vector2.Distance(transform.position, pen.position) > 0.1f) {
 				currentDirection = (pen.position - transform.position).normalized;
-				if ((updatePreviousPosition >= 0.1f) && Mathf.Abs(Vector2.Distance(transform.position, sheepPosPrevious)) < 0.3f) {
-					currentDirection = Vector2.zero;
-				}
+			//	if ((updatePreviousPosition >= 0.1f) && Mathf.Abs(Vector2.Distance(transform.position, sheepPosPrevious)) < 0.3f) {
+			//		currentDirection = Vector2.zero;
+			//	}
 
 			}
 		}
