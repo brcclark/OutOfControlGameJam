@@ -21,7 +21,7 @@ public class AnimalMovement : MonoBehaviour {
 		player = GameObject.FindGameObjectWithTag("Player").transform;
 
 		//choose a random start direction
-		startDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+		startDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 		currentDirection = startDirection;
 	}
 
@@ -35,7 +35,7 @@ public class AnimalMovement : MonoBehaviour {
 		currentMoveTimer = Mathf.Clamp(currentMoveTimer, 0, timeUntilDirChange);
 
 		if (currentMoveTimer >= timeUntilDirChange) {
-			currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
+			currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 			currentMoveTimer = 0f;
 		}
 	}
