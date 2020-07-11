@@ -27,8 +27,16 @@ public class AnimalMovement : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		transform.position += (Vector3)currentDirection * moveSpeed * Time.deltaTime;
+		//Determine the next position
+		//Check to see if the player is in our Zone of influence
+		//Check to see if we are in the pen
+		//If none of that has happened, we'll just check to randomly change our direction
+		RandomPositionTimer();
+		//Update the position
+		UpdatePosition();
+	}
 
+	void RandomPositionTimer() {
 		if (currentMoveTimer < timeUntilDirChange) {
 			currentMoveTimer += Time.deltaTime;
 		}
@@ -39,4 +47,9 @@ public class AnimalMovement : MonoBehaviour {
 			currentMoveTimer = 0f;
 		}
 	}
+
+	void UpdatePosition() {
+		transform.position += (Vector3)currentDirection * moveSpeed * Time.deltaTime;
+	}
+
 }
