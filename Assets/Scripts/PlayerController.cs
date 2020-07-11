@@ -13,6 +13,8 @@ public class PlayerController : MonoBehaviour {
 	public System.Action OnBarkUsed;
 	public System.Action OnBarkReady;
 
+	AudioSource barkAudio;
+
 	Vector3 dashDir;
 	float dashCoolDown = 3f;
 	float dashTimer;
@@ -22,6 +24,7 @@ public class PlayerController : MonoBehaviour {
 	PlayerMovementState playerMovementState;
 	// Start is called before the first frame update
 	void Start() {
+		barkAudio = GetComponent<AudioSource>();
 	}
 
 	void OnTriggerEnter2D(Collider2D col) {
@@ -49,6 +52,7 @@ public class PlayerController : MonoBehaviour {
 					playerMovementState = PlayerMovementState.Player_Dash;
 				}
 				if (Input.GetButtonDown("Bark")) {
+					barkAudio.Play();
 					print("Bark!");
 				}
 				break;
