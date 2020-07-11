@@ -163,12 +163,7 @@ public class AnimalMovement : MonoBehaviour {
 			jailbreakDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 		}
 		//check to see if that will let them out of the pen
-		if(!Physics.Raycast(transform.position,jailbreakDirection,penWallDistanceCheck,mask) && (jailbreakDirection != currentDirection)){
-			currentDirection = jailbreakDirection;
-			print("In Jailbreak");
-		}
 		Debug.DrawRay(transform.position,jailbreakDirection * penWallDistanceCheck,Color.white);
-		//move in that direction until out of pen plus a time
 		if (!inPen) {
 			sheepState = SheepState.Sheep_Wander;
 		}
