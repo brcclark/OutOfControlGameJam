@@ -60,8 +60,14 @@ public class AnimalMovement : MonoBehaviour {
 				InPen();
 				break;
 			case SheepState.Sheep_Avoid:
+				//Check to see if the player is in our Zone of influence
+				PlayerVisible();
+				//Check to see if we're in the pen
+				InPen();
 				break;
 			case SheepState.Sheep_In_Pen:
+				//Check to see if we're in the pen
+				InPen();
 				break;
 		}
 		//Update the position
@@ -86,6 +92,7 @@ public class AnimalMovement : MonoBehaviour {
 
 	void PlayerVisible() {
 		if (Vector2.Distance(transform.position, player.position) <= scareDistance) {
+			sheepState = SheepState.Sheep_Avoid;
 			playerToSheepDir = (transform.position - player.position).normalized;
 			currentDirection = playerToSheepDir;
 			currentMoveTimer = 0f;
@@ -94,9 +101,15 @@ public class AnimalMovement : MonoBehaviour {
 
 	void InPen() {
 		if (inPen) {
-			currentDirection = Vector2.zero;
 			currentMoveTimer = 0f;
 			sheepState = SheepState.Sheep_In_Pen;
+
+			if(Vector2.Distance(transform.position,pen.position) > 0.1f) {
+				currentDirection = (pen.position - transform.position).normalized;
+				print(currentDirection);
+			}else{
+				currentDirection = Vector2.zero;
+			}
 		}
 
 	}
