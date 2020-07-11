@@ -43,6 +43,10 @@ public class PlayerController : MonoBehaviour {
 					dashDir = inputDir;
 					playerMovementState = PlayerMovementState.Player_Dash;
 				}
+				if (Input.GetButtonDown("Bark")) {
+					print("Bark!");
+				}
+
 				break;
 			case PlayerMovementState.Player_Dash:
 				//This should be more of an animation than a "teleport", should lerp the position i think
