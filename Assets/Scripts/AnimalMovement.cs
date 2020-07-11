@@ -30,7 +30,7 @@ public class AnimalMovement : MonoBehaviour {
 	Transform player;
 	Transform pen;
 	Camera cam;
-	LayerMask background;
+	public LayerMask mask;
 
 	enum SheepState { Sheep_Wander, Sheep_Avoid, Sheep_In_Pen, Sheep_Escaping }
 
@@ -62,6 +62,12 @@ public class AnimalMovement : MonoBehaviour {
 			penManager.sheepInPenCount--;
 			inPen = false;
 		}
+	}
+	void OnCollisionEnter2D(Collision2D collision) {
+		if(collision.gameObject.layer == 8){
+			print("I ran into something");
+		currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+		}	
 	}
 	// Update is called once per frame
 	void Update() {
@@ -95,6 +101,7 @@ public class AnimalMovement : MonoBehaviour {
 		}
 		//Check to see if they are outside camera range
 		OnCamEdge();
+		//Check to see if they collide with something
 		//Update the position
 		UpdatePosition();
 	}
@@ -157,10 +164,11 @@ public class AnimalMovement : MonoBehaviour {
 			jailbreakDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 		}
 		//check to see if that will let them out of the pen
-		if(!Physics.Raycast(transform.position,jailbreakDirection,penWallDistanceCheck) && (jailbreakDirection != currentDirection)){
+		if(!Physics.Raycast(transform.position,jailbreakDirection,penWallDistanceCheck,mask) && (jailbreakDirection != currentDirection)){
 			currentDirection = jailbreakDirection;
 			print("In Jailbreak");
 		}
+		Debug.DrawRay(transform.position,jailbreakDirection * penWallDistanceCheck,Color.white);
 		//move in that direction until out of pen plus a time
 		if(!inPen){
 			sheepState = SheepState.Sheep_Wander;
@@ -192,4 +200,5 @@ public class AnimalMovement : MonoBehaviour {
 			currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 		}
 	}
+
 }

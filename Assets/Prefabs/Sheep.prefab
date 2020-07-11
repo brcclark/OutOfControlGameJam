@@ -52,8 +52,11 @@ MonoBehaviour:
   cantEscapeTime: 10
   scareDistance: 10
   escapeDecayTime: 30
+  penWallDistanceCheck: 100
   startDirection: {x: 0, y: 0}
-  penManager: {fileID: 0}
+  mask:
+    serializedVersion: 2
+    m_Bits: 256
 --- !u!50 &570677798649475895
 Rigidbody2D:
   serializedVersion: 4
