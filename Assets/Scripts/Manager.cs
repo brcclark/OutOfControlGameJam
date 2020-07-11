@@ -15,10 +15,13 @@ public class Manager : MonoBehaviour {
 
 	PenManager pen;
 	public float score;
+	AudioSource audio;
 
 	void Start() {
+		audio.playOnAwake = true;
 		State = GameState.Playing;
 		pen = GameObject.FindWithTag("Pen").GetComponent<PenManager>();
+		audio = GetComponent<AudioSource>();
 	}
 	// Update is called once per frame
 	void Update() {
@@ -31,6 +34,7 @@ public class Manager : MonoBehaviour {
 		}
 	}
 	void StateMachine() {
+
 	}
 
 }
