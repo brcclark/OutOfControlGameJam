@@ -21,7 +21,7 @@ public class AnimalMovement : MonoBehaviour {
 	float escapeCheckNumber = 100f;
 	float lastMoveTime;
 	float currentMoveTimer;
-	float updatePreviousPosition;
+	float placidSheep = 0f;
 	Vector2 jailbreakDirection = Vector2.up;
 	Vector2 sheepPosPrevious;
 	Vector2 sheepCamPos;
@@ -64,9 +64,10 @@ public class AnimalMovement : MonoBehaviour {
 		}
 	}
 	void OnCollisionEnter2D(Collision2D collision) {
-		if (collision.gameObject.layer == 8) {
-			currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
-		}
+		if(collision.gameObject.layer == 8){
+			print("I ran into something");
+		currentDirection = -currentDirection;
+		}	
 	}
 	// Update is called once per frame
 	void Update() {
@@ -169,22 +170,23 @@ public class AnimalMovement : MonoBehaviour {
 			sheepState = SheepState.Sheep_Wander;
 		}
 	}
+	bool placid = false;
 	void InPen() {
 		if (inPen) {
+			if(sheepState != SheepState.Sheep_In_Pen){
+				placid = false;
+				placidSheep = 0f;
+			}
 			currentMoveTimer = 0f;
 			sheepState = SheepState.Sheep_In_Pen;
-			updatePreviousPosition += Time.deltaTime;
-			if (updatePreviousPosition >= 0.5f) {
-				sheepPosPrevious = transform.position;
-				updatePreviousPosition = 0f;
+			placidSheep += Time.deltaTime;
+			if (placidSheep >= 3f) {
+				currentDirection = Vector2.zero;
+				placid = true;
 			}
 
-			if (Vector2.Distance(transform.position, pen.position) > 0.1f) {
+			if ((Vector2.Distance(transform.position, pen.position) > 0.1f) && !placid) {
 				currentDirection = (pen.position - transform.position).normalized;
-				//	if ((updatePreviousPosition >= 0.1f) && Mathf.Abs(Vector2.Distance(transform.position, sheepPosPrevious)) < 0.3f) {
-				//		currentDirection = Vector2.zero;
-				//	}
-
 			}
 		}
 
@@ -192,7 +194,7 @@ public class AnimalMovement : MonoBehaviour {
 	void OnCamEdge() {
 		sheepCamPos = cam.WorldToViewportPoint(transform.position);
 		if ((sheepCamPos.x < 0f) || (sheepCamPos.x > 1f) || (sheepCamPos.y < 0f) || (sheepCamPos.y > 1f)) {
-			currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+			currentDirection = -currentDirection;
 		}
 	}
 
