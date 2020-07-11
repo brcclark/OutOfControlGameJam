@@ -104,7 +104,7 @@ public class AnimalMovement : MonoBehaviour {
 	}
 
 	void PlayerVisible() {
-		if(Vector2.Distance(transform.position, player.position) <= scareDistance) {
+		if (Vector2.Distance(transform.position, player.position) <= scareDistance) {
 			sheepState = SheepState.Sheep_Avoid;
 			playerToSheepDir = (transform.position - player.position).normalized;
 			currentDirection = playerToSheepDir;
@@ -116,33 +116,35 @@ public class AnimalMovement : MonoBehaviour {
 	}
 	//Add potential for the sheep to escape. After a set time, or if the player is within scare distance
 	bool stopPlease = false;
-	void Jailbreak(){
+	void Jailbreak() {
 		//check if initial time, guaranteed no escape
-		if(cantEscapeTimer < cantEscapeTime) {
+		if (cantEscapeTimer < cantEscapeTime) {
 			cantEscapeTimer += Time.deltaTime;
 		}
 		cantEscapeTimer = Mathf.Clamp(cantEscapeTimer, 0, cantEscapeTime);
 		//start increasing a chance for the sheep to escape
-		if(cantEscapeTimer >= cantEscapeTime){
-			currentEscapeChance = Mathf.InverseLerp(0f,escapeDecayTime,maybeEscapesTimer);
+		if (cantEscapeTimer >= cantEscapeTime) {
+			currentEscapeChance = Mathf.InverseLerp(0f, escapeDecayTime, maybeEscapesTimer);
 			maybeEscapesTimer += Time.deltaTime;
-			escapeCheckNumber = Random.Range(0,1000) / 10.0f;
+			escapeCheckNumber = Random.Range(0, 1000) / 10.0f;
 		}
 		//check to see if they escape. checking a random number against being under the currentEscapeChance
-		if(stopPlease == false){
-			if(escapeCheckNumber <= (Mathf.Round(maybeEscapesTimer * 10f)/ 10f)){
-			print("Let's get out of here!");
-			print("Escape Check Number: " + escapeCheckNumber);
-			print("Maybe Escapes Timer Number: " + (Mathf.Round(maybeEscapesTimer * 10f)/ 10f));
-			stopPlease = true;
-			} else{
-			print("Escape Check Number: " + escapeCheckNumber);
-			print("Maybe Escapes Timer Number: " + (Mathf.Round(maybeEscapesTimer * 10f)/ 10f));
+		if (stopPlease == false) {
+			if (escapeCheckNumber <= (Mathf.Round(currentEscapeChance * 10f) / 10f)) {
+				// print("Let's get out of here!");
+				// print("Escape Check Number: " + escapeCheckNumber);
+				// print("Maybe Escapes Timer Number: " + (Mathf.Round(maybeEscapesTimer * 10f)/ 10f));
+				stopPlease = true;
+				sheepState = SheepState.Sheep_Escaping;
+				print("Escaped after " + maybeEscapesTimer + " seconds!");
+			}
+			else {
 			}
 		}
 		//if they escape, change direction to out of pen
+
 	}
-//add fox? that can herd them past those barriers
+	//add fox? that can herd them past those barriers
 	void InPen() {
 		if (inPen) {
 			currentMoveTimer = 0f;
@@ -153,7 +155,7 @@ public class AnimalMovement : MonoBehaviour {
 				updatePreviousPosition = 0f;
 			}
 
-			if(Vector2.Distance(transform.position,pen.position) > 0.1f) {
+			if (Vector2.Distance(transform.position, pen.position) > 0.1f) {
 				currentDirection = (pen.position - transform.position).normalized;
 				if ((updatePreviousPosition >= 0.1f) && Mathf.Abs(Vector2.Distance(transform.position, sheepPosPrevious)) < 0.3f) {
 					currentDirection = Vector2.zero;
@@ -165,7 +167,7 @@ public class AnimalMovement : MonoBehaviour {
 	}
 	void OnCamEdge() {
 		sheepCamPos = cam.WorldToViewportPoint(transform.position);
-		if((sheepCamPos.x < 0f) || (sheepCamPos.x > 1f) || (sheepCamPos.y < 0f) || (sheepCamPos.y > 1f)){
+		if ((sheepCamPos.x < 0f) || (sheepCamPos.x > 1f) || (sheepCamPos.y < 0f) || (sheepCamPos.y > 1f)) {
 			currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 		}
 	}
