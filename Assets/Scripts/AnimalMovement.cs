@@ -120,7 +120,7 @@ public class AnimalMovement : MonoBehaviour {
 
 	void UpdatePosition() {
 		transform.position += (Vector3)currentDirection * moveSpeed * Time.deltaTime;
-		Debug.DrawRay(transform.position,currentDirection * penWallDistanceCheck,Color.white);
+		Debug.DrawRay(transform.position, currentDirection * penWallDistanceCheck, Color.white);
 	}
 
 	void PlayerVisible() {
@@ -165,7 +165,7 @@ public class AnimalMovement : MonoBehaviour {
 		}
 		currentDirection = jailbreakDirection;
 		//check to see if that will let them out of the pen
-		
+
 		if (!inPen) {
 			sheepState = SheepState.Sheep_Wander;
 		}
