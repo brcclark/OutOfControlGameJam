@@ -67,6 +67,7 @@ public class AnimalMovement : MonoBehaviour {
 	}
 	void OnCollisionEnter2D(Collision2D collision) {
 		if(collision.gameObject.layer == 8){
+			//print("I ran into something");
 		currentDirection = -currentDirection;
 		}
 		if(collision.gameObject.CompareTag("Pen") && placid && sheepState == SheepState.Sheep_In_Pen){
