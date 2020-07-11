@@ -22,23 +22,19 @@ public class AnimalMovement : MonoBehaviour {
 
 		//choose a random start direction
 		startDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
-		//Hi Nick, Unity?
-			
-		//Hi Nick, Hi Connor
-		//I'm changing something else as well to show merge conflicts
 		currentDirection = startDirection;
 	}
 
 	// Update is called once per frame
 	void Update() {
 		transform.position += (Vector3)currentDirection * moveSpeed * Time.deltaTime;
-		
-		if(currentMoveTimer < timeUntilDirChange) {
+
+		if (currentMoveTimer < timeUntilDirChange) {
 			currentMoveTimer += Time.deltaTime;
 		}
 		currentMoveTimer = Mathf.Clamp(currentMoveTimer, 0, timeUntilDirChange);
-		
-		if(currentMoveTimer >= timeUntilDirChange){
+
+		if (currentMoveTimer >= timeUntilDirChange) {
 			currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
 			currentMoveTimer = 0f;
 		}
