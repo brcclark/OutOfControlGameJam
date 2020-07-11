@@ -13,6 +13,12 @@ public class PlayerController : MonoBehaviour {
 		transform = GetComponent<Transform>();
 	}
 
+	void OnTriggerEnter2D(Collider2D col) {
+		print(col.gameObject.CompareTag("Pen"));
+	}
+	void OnTriggerExit2D(Collider2D col) {
+		print("exit" + col.gameObject.CompareTag("Pen"));
+	}
 	// Update is called once per frame
 	void Update() {
 		Vector3 inputDir = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0).normalized;
