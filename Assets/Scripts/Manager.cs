@@ -10,16 +10,19 @@ public class Manager : MonoBehaviour {
 		Game_Player_End_Turn,
 		Game_Over
 	}
-	public GameState State;
 
+	public GameState State;
+	public Transform sheep;
+
+	public int numSheep = 5;
+
+	void Start() {
+		for (int i = 0; i < numSheep; i++) {
+			Instantiate(sheep, new Vector3(Random.Range(-15f, 15f), Random.Range(-15f, 15f), 0), Quaternion.identity);
+		}
+	}
 	// Update is called once per frame
 	void Update() {
-
-	}
-
-	void NewGame() {
-		//Clear out the cages
-		//Clear out the bunnies list
 
 	}
 	void StateMachine() {
