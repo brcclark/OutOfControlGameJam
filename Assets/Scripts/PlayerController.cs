@@ -53,12 +53,12 @@ public class PlayerController : MonoBehaviour {
 				}
 				if (Input.GetButtonDown("Bark")) {
 					barkAudio.Play();
-					print("Bark!");
 				}
 				break;
 			case PlayerMovementState.Player_Dash:
 				//This should be more of an animation than a "teleport", should lerp the position i think
-				transform.position += dashDir * dashAmount;
+				// transform.position += dashDir * dashAmount;
+				StartCoroutine(Dash());
 				playerMovementState = PlayerMovementState.Player_Move;
 				break;
 		}
@@ -66,7 +66,22 @@ public class PlayerController : MonoBehaviour {
 
 		transform.position += inputDir * playerSpeed * Time.deltaTime;
 	}
+	IEnumerator Dash() {
+		Vector3 originalPosition = transform.position;
+		Vector3 dashPosition = dashDir * dashAmount;
+		print(dashPosition + originalPosition);
 
+		float attackSpeed = 6f;
+		float percent = 0;
+
+		while (percent <= 1) {
+			percent += Time.deltaTime * attackSpeed;
+			//float interpolation = 4 * (-Mathf.Pow(percent, 2) + percent);
+			//float interpolation = Mathf.Sqrt(percent);
+			transform.position = Vector3.Lerp(originalPosition, dashPosition + originalPosition, percent);
+			yield return null;
+		}
+	}
 	void RechargeAbilities() {
 		RechargeDash();
 	}
