@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour {
 
 	Transform t;
 	float spawnTimer;
-	float diffucltyIncreaseTime = 5;
+	float diffucltyIncreaseTime = 20;
 	float currentDifficultyTime = 0;
 	int currentDifficulty = 0;
 	// Start is called before the first frame update
