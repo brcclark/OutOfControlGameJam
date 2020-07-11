@@ -15,6 +15,8 @@ public class AnimalMovement : MonoBehaviour {
 	Vector2 currentDirection;
 	Transform player;
 
+	bool inPen = false;
+
 	// Start is called before the first frame update
 	void Start() {
 		//Bringing in the player position
@@ -25,6 +27,16 @@ public class AnimalMovement : MonoBehaviour {
 		currentDirection = startDirection;
 	}
 
+	void OnTriggerEnter2D(Collider2D col) {
+		if (col.gameObject.CompareTag("Pen")) {
+			inPen = true;
+		}
+	}
+	void OnTriggerExit2D(Collider2D col) {
+		if (col.gameObject.CompareTag("Pen")) {
+			inPen = false;
+		}
+	}
 	// Update is called once per frame
 	void Update() {
 		//Determine the next position
