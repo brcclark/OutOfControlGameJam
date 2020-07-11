@@ -17,6 +17,10 @@ public class AnimalMovement : MonoBehaviour {
 	Transform player;
 	Transform pen;
 
+	enum SheepState { Sheep_Wander, Sheep_Avoid, Sheep_In_Pen }
+
+	SheepState sheepState;
+
 	bool inPen = false;
 
 	// Start is called before the first frame update
@@ -45,20 +49,27 @@ public class AnimalMovement : MonoBehaviour {
 	// Update is called once per frame
 	void Update() {
 		//Determine the next position
-		if(!inPen){
-		//Check to see if the player is in our Zone of influence
-			PlayerVisible();
-		//Check to see if we are in the pen
-			InPen();
-		//If none of that has happened, we'll just check to randomly change our direction
-			RandomPositionTimer();
+
+		switch (sheepState) {
+			case SheepState.Sheep_Wander:
+				//Check to see if the player is in our Zone of influence
+				PlayerVisible();
+				//If none of that has happened, we'll just check to randomly change our direction
+				RandomPositionTimer();
+				//Check to see if we're in the pen
+				InPen();
+				break;
+			case SheepState.Sheep_Avoid:
+				break;
+			case SheepState.Sheep_In_Pen:
+				break;
 		}
 		//Update the position
 		UpdatePosition();
 	}
 
 	void RandomPositionTimer() {
-		if ((currentMoveTimer < timeUntilDirChange) && !inPen){
+		if ((currentMoveTimer < timeUntilDirChange) && !inPen) {
 			currentMoveTimer += Time.deltaTime;
 		}
 		currentMoveTimer = Mathf.Clamp(currentMoveTimer, 0, timeUntilDirChange);
@@ -74,17 +85,18 @@ public class AnimalMovement : MonoBehaviour {
 	}
 
 	void PlayerVisible() {
-		if(Vector2.Distance(transform.position,player.position) <= scareDistance){
-			playerToSheepDir = (transform.position- player.position).normalized;
+		if (Vector2.Distance(transform.position, player.position) <= scareDistance) {
+			playerToSheepDir = (transform.position - player.position).normalized;
 			currentDirection = playerToSheepDir;
 			currentMoveTimer = 0f;
 		}
 	}
 
 	void InPen() {
-		if(inPen){
+		if (inPen) {
 			currentDirection = Vector2.zero;
 			currentMoveTimer = 0f;
+			sheepState = SheepState.Sheep_In_Pen;
 		}
 
 	}
