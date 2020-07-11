@@ -96,7 +96,7 @@ public class AnimalMovement : MonoBehaviour {
 			case SheepState.Sheep_In_Pen:
 				//Check to see if we're in the pen
 				InPen();
-				//Check to see if we are escaping
+				//Check to see if we are escapings
 				JailbreakPlanning();
 				break;
 			case SheepState.Sheep_Escaping:
@@ -129,14 +129,15 @@ public class AnimalMovement : MonoBehaviour {
 	}
 
 	void PlayerVisible() {
-		if ((Vector2.Distance(transform.position,player.position) <= (scareDistance / 2))) {
+		if ((Vector2.Distance(transform.position, player.position) <= (scareDistance / 2))) {
 			moveSpeed += 1f;
-			if(Vector2.Distance(transform.position, player.position) <= scareDistance){
+			if (Vector2.Distance(transform.position, player.position) <= scareDistance) {
 				sheepState = SheepState.Sheep_Avoid;
 				playerToSheepDir = (transform.position - player.position).normalized;
 				currentDirection = playerToSheepDir;
 				currentMoveTimer = 0f;
 			}
+			// print(moveSpeed);
 		}
 		else {
 			moveSpeed = originalMoveSpeed;
@@ -144,7 +145,6 @@ public class AnimalMovement : MonoBehaviour {
 		}
 	}
 	//Add potential for the sheep to escape. After a set time, or if the player is within scare distance
-	bool stopPlease = false;
 	void JailbreakPlanning() {
 		//check if initial time, guaranteed no escape
 		if (cantEscapeTimer < cantEscapeTime) {
@@ -158,13 +158,15 @@ public class AnimalMovement : MonoBehaviour {
 			escapeCheckNumber = Random.Range(0, 1000) / 10.0f;
 		}
 		//check to see if they escape. checking a random number against being under the currentEscapeChance
-		if (stopPlease == false) {
-			if (escapeCheckNumber <= (Mathf.Round(currentEscapeChance * 10f) / 10f)) {
-				stopPlease = true;
-				cantEscapeTimer = 0f;
-				sheepState = SheepState.Sheep_Escaping;
-			}
+
+		if (escapeCheckNumber <= (Mathf.Round(currentEscapeChance * 10f) / 10f)) {
+			cantEscapeTimer = 0;
+			escapeCheckNumber = 100;
+			maybeEscapesTimer = 0;
+			currentEscapeChance = 0;
+			sheepState = SheepState.Sheep_Escaping;
 		}
+
 	}
 	//add fox? that can herd them past those barriers
 	void Jailbreak() {
@@ -184,7 +186,7 @@ public class AnimalMovement : MonoBehaviour {
 	Collision2D insideCollide;
 	void InPen() {
 		if (inPen) {
-			if(sheepState != SheepState.Sheep_In_Pen){
+			if (sheepState != SheepState.Sheep_In_Pen) {
 				placid = false;
 				placidSheep = 0f;
 			}
