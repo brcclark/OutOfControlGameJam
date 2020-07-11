@@ -12,6 +12,7 @@ public class AnimalMovement : MonoBehaviour {
 
 	float lastMoveTime;
 	float currentMoveTimer;
+	Vector2 sheepPosPrevious;
 	Vector2 playerToSheepDir;
 	Vector2 currentDirection;
 	Transform player;
@@ -96,19 +97,30 @@ public class AnimalMovement : MonoBehaviour {
 			playerToSheepDir = (transform.position - player.position).normalized;
 			currentDirection = playerToSheepDir;
 			currentMoveTimer = 0f;
+		}else {
+			sheepState = SheepState.Sheep_Wander;
 		}
 	}
-
+//Add potential for the sheep to escape. After a set time, or if the player is within scare distance
+//add barriers for the sheep
+//add fox? that can herd them past those barriers
 	void InPen() {
+		float updatePreviousPosition = 0f;
 		if (inPen) {
 			currentMoveTimer = 0f;
 			sheepState = SheepState.Sheep_In_Pen;
+			if(updatePreviousPosition >= 0.2f){
+			sheepPosPrevious = transform.position;
+			updatePreviousPosition = 0f;
+			}else{
+				updatePreviousPosition += Time.deltaTime;
+			}
 
 			if(Vector2.Distance(transform.position,pen.position) > 0.1f) {
+				if(Vector2.Distance(transform.position, sheepPosPrevious) < 3f){
+					currentDirection = Vector2.zero;
+				}
 				currentDirection = (pen.position - transform.position).normalized;
-				print(currentDirection);
-			}else{
-				currentDirection = Vector2.zero;
 			}
 		}
 
