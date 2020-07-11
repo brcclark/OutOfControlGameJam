@@ -67,9 +67,11 @@ public class AnimalMovement : MonoBehaviour {
 	}
 	void OnCollisionEnter2D(Collision2D collision) {
 		if(collision.gameObject.layer == 8){
-			print("I ran into something");
 		currentDirection = -currentDirection;
-		}	
+		}
+		if(collision.gameObject.CompareTag("Pen") && placid && sheepState == SheepState.Sheep_In_Pen){
+			currentDirection = -currentDirection;
+		}
 	}
 	// Update is called once per frame
 	void Update() {
@@ -134,7 +136,6 @@ public class AnimalMovement : MonoBehaviour {
 				currentDirection = playerToSheepDir;
 				currentMoveTimer = 0f;
 			}
-			print(moveSpeed);
 		}
 		else {
 			moveSpeed = originalMoveSpeed;
@@ -159,6 +160,7 @@ public class AnimalMovement : MonoBehaviour {
 		if (stopPlease == false) {
 			if (escapeCheckNumber <= (Mathf.Round(currentEscapeChance * 10f) / 10f)) {
 				stopPlease = true;
+				cantEscapeTimer = 0f;
 				sheepState = SheepState.Sheep_Escaping;
 			}
 		}
@@ -178,6 +180,7 @@ public class AnimalMovement : MonoBehaviour {
 		}
 	}
 	bool placid = false;
+	Collision2D insideCollide;
 	void InPen() {
 		if (inPen) {
 			if(sheepState != SheepState.Sheep_In_Pen){
@@ -188,8 +191,11 @@ public class AnimalMovement : MonoBehaviour {
 			sheepState = SheepState.Sheep_In_Pen;
 			placidSheep += Time.deltaTime;
 			if (placidSheep >= 3f) {
-				currentDirection = Vector2.zero;
+				currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 				placid = true;
+			}
+			
+			if (placid){
 			}
 
 			if ((Vector2.Distance(transform.position, pen.position) > 0.1f) && !placid) {
