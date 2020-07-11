@@ -135,7 +135,6 @@ public class AnimalMovement : MonoBehaviour {
 				// print("Escape Check Number: " + escapeCheckNumber);
 				// print("Maybe Escapes Timer Number: " + (Mathf.Round(maybeEscapesTimer * 10f)/ 10f));
 				stopPlease = true;
-				sheepState = SheepState.Sheep_Escaping;
 				print("Escaped after " + maybeEscapesTimer + " seconds!");
 			}
 			else {
