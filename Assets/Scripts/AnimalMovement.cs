@@ -10,7 +10,7 @@ public class AnimalMovement : MonoBehaviour {
 	public float cantEscapeTime = 10f;
 	public float scareDistance = 10f;
 	public float escapeDecayTime = 30f;
-	public float penWallDistanceCheck = 5f;
+	public float penWallDistanceCheck = 100f;
 	public Vector2 startDirection;
 
 	PenManager penManager;
@@ -30,6 +30,7 @@ public class AnimalMovement : MonoBehaviour {
 	Transform player;
 	Transform pen;
 	Camera cam;
+	LayerMask background;
 
 	enum SheepState { Sheep_Wander, Sheep_Avoid, Sheep_In_Pen, Sheep_Escaping }
 
@@ -156,7 +157,7 @@ public class AnimalMovement : MonoBehaviour {
 			jailbreakDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 		}
 		//check to see if that will let them out of the pen
-		if(Physics.Linecast(transform.position,jailbreakDirection,penWallDistanceCheck) && (jailbreakDirection != currentDirection)){
+		if(!Physics.Raycast(transform.position,jailbreakDirection,penWallDistanceCheck) && (jailbreakDirection != currentDirection)){
 			currentDirection = jailbreakDirection;
 			print("In Jailbreak");
 		}
