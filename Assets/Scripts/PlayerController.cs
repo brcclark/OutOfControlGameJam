@@ -9,8 +9,11 @@ public class PlayerController : MonoBehaviour {
 
 	Transform transform;
 	Vector3 dashDir;
-	enum PlayerMovementState { Player_Move, Player_Dash }
+	float dashCoolDown = 3f;
+	float dashTimer;
+	bool dashRecharged = true;
 
+	enum PlayerMovementState { Player_Move, Player_Dash }
 	PlayerMovementState playerMovementState;
 	// Start is called before the first frame update
 	void Start() {
@@ -34,9 +37,9 @@ public class PlayerController : MonoBehaviour {
 		switch (playerMovementState) {
 			case PlayerMovementState.Player_Move:
 				inputDir = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0).normalized;
-				if (Input.GetButtonDown("Dash")) {
+				if (Input.GetButtonDown("Dash") && dashRecharged) {
+					dashRecharged = false;
 					//Preform a dash movement
-					//Need a dash cooldown
 					dashDir = inputDir;
 					playerMovementState = PlayerMovementState.Player_Dash;
 				}
@@ -47,8 +50,23 @@ public class PlayerController : MonoBehaviour {
 				playerMovementState = PlayerMovementState.Player_Move;
 				break;
 		}
-
+		RechargeAbilities();
 
 		transform.position += inputDir * playerSpeed * Time.deltaTime;
+	}
+
+	void RechargeAbilities() {
+		RechargeDash();
+	}
+	void RechargeDash() {
+		if (!dashRecharged) {
+			if (dashTimer > dashCoolDown) {
+				dashTimer = 0;
+				dashRecharged = true;
+			}
+			else {
+				dashTimer += Time.deltaTime;
+			}
+		}
 	}
 }
