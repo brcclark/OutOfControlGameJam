@@ -4,17 +4,21 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Manager : MonoBehaviour {
-	public enum GameState {
+	public Transform[] flowers;
+
+	public Text gameScoreUI;
+
+	PenManager pen;
+	public float score;
+
+	List<Transform> spawnedFlowers;
+
+	GameState State;
+	enum GameState {
 		Menu,
 		Playing,
 		Game_Over
 	}
-
-	public Text gameScoreUI;
-	public GameState State;
-
-	PenManager pen;
-	public float score;
 
 	void Start() {
 		State = GameState.Playing;
