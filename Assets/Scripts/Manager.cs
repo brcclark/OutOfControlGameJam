@@ -37,7 +37,9 @@ public class Manager : MonoBehaviour {
 		if (!audio.isPlaying) {
 			//Choose a random audio clip and start playing it
 			audio.clip = musicThemes[Random.Range(0, musicThemes.Length)];
+			audio.volume = PlayerPrefs.GetFloat("MusicVolume");
 			audio.Play();
+
 		}
 	}
 	void SpawnFlowers() {
