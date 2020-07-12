@@ -243,7 +243,18 @@ public class AnimalMovement : MonoBehaviour {
 	void OnCamEdge() {
 		sheepCamPos = cam.WorldToViewportPoint(transform.position);
 		if ((sheepCamPos.x < 0f) || (sheepCamPos.x > 1f) || (sheepCamPos.y < 0f) || (sheepCamPos.y > 1f)) {
-			currentDirection = -currentDirection;
+			if(sheepCamPos.x < 0f){
+			currentDirection = new Vector2(Random.Range(0f, 1f),-currentDirection.y).normalized;
+			}
+			if(sheepCamPos.x > 1f){
+			currentDirection = new Vector2(Random.Range(-1f, 0f),-currentDirection.y).normalized;
+			}
+			if(sheepCamPos.y < 0f){
+			currentDirection = new Vector2(-currentDirection.x,Random.Range(0f, 1f)).normalized;
+			}
+			if(sheepCamPos.y > 1f){
+			currentDirection = new Vector2(-currentDirection.x,Random.Range(-1f, 0f)).normalized;
+			}
 		}
 	}
 
