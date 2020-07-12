@@ -14,6 +14,7 @@ public class Spawner : MonoBehaviour {
 	float diffucltyIncreaseTime = 20;
 	float currentDifficultyTime = 0;
 	int currentDifficulty = 0;
+
 	// Start is called before the first frame update
 	void Start() {
 		t = GetComponent<Transform>();
@@ -21,10 +22,13 @@ public class Spawner : MonoBehaviour {
 			SpawnSheep();
 		}
 		SpawnSquirell();
+
 	}
 
 	void SpawnSquirell() {
-		Transform sq = Instantiate(squirell, new Vector3(Random.Range(-15f, 15f), Random.Range(-15f, 15f), 0), Quaternion.identity) as Transform;
+		float rotation;
+		rotation = Mathf.Rad2Deg * Mathf.Atan2(Random.Range(-1f, 1f), Random.Range(0f, 1f));
+		Transform sq = Instantiate(squirell, new Vector3(Random.Range(-15f, 15f), Random.Range(-15f, 15f), 0), Quaternion.Euler(0, 0, rotation)) as Transform;
 		sq.parent = t;
 	}
 
@@ -36,6 +40,7 @@ public class Spawner : MonoBehaviour {
 		if (currentDifficultyTime >= diffucltyIncreaseTime) {
 			currentDifficulty++;
 			currentDifficultyTime = 0;
+			SpawnSquirell();
 		}
 		else {
 			currentDifficultyTime += Time.deltaTime;
@@ -55,5 +60,8 @@ public class Spawner : MonoBehaviour {
 	void Update() {
 		CheckDifficulty();
 		CheckSheepSpawner();
+		if (Input.GetKeyDown(KeyCode.RightControl)) {
+			SpawnSquirell();
+		}
 	}
 }
