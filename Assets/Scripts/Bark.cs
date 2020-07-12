@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class Bark : MonoBehaviour {
 	public LayerMask collisionMask;
-	float speed = 30;
+	float speed = 35;
 	float lifetime = 0.5f;
 	// Start is called before the first frame update
 	void Start() {

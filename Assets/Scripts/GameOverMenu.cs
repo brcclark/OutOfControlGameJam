@@ -25,7 +25,7 @@ public class GameOverMenu : MonoBehaviour {
 	public void GameOverData() {
 		pen = GameObject.FindWithTag("Pen").GetComponent<PenManager>();
 		gameOverMenu.SetActive(true);
-		finalScore.text = pen.penScore.ToString();
+		finalScore.text = string.Format("{0:0.##}", pen.penScore);
 	}
 }
 

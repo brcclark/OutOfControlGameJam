@@ -17,7 +17,7 @@ public class AnimalMovement : MonoBehaviour {
 
 	float barkTimer = 1f;
 	float lastBarkTime = 0;
-	float barkAvoidSpeed = 8;
+	float barkAvoidSpeed = 12;
 	float inPenTimeUntilDirChange = 1f;
 	float timeUntilDirChange = 0f;
 	float cantEscapeTimer = 0f;
@@ -137,10 +137,10 @@ public class AnimalMovement : MonoBehaviour {
 	}
 
 	void RandomPositionTimer() {
-		if(sheepState == SheepState.Sheep_Wander){
+		if (sheepState == SheepState.Sheep_Wander) {
 			timeUntilDirChange = outOfPenTimeUntilDirChange;
 		}
-		if(sheepState == SheepState.Sheep_In_Pen){
+		if (sheepState == SheepState.Sheep_In_Pen) {
 			timeUntilDirChange = inPenTimeUntilDirChange;
 		}
 		if ((currentMoveTimer < timeUntilDirChange) && !inPen) {
@@ -250,17 +250,17 @@ public class AnimalMovement : MonoBehaviour {
 	void OnCamEdge() {
 		sheepCamPos = cam.WorldToViewportPoint(transform.position);
 		if ((sheepCamPos.x < 0f) || (sheepCamPos.x > 1f) || (sheepCamPos.y < 0f) || (sheepCamPos.y > 1f)) {
-			if(sheepCamPos.x < 0f){
-			currentDirection = new Vector2(Random.Range(0f, 1f),-currentDirection.y).normalized;
+			if (sheepCamPos.x < 0f) {
+				currentDirection = new Vector2(Random.Range(0f, 1f), -currentDirection.y).normalized;
 			}
-			if(sheepCamPos.x > 1f){
-			currentDirection = new Vector2(Random.Range(-1f, 0f),-currentDirection.y).normalized;
+			if (sheepCamPos.x > 1f) {
+				currentDirection = new Vector2(Random.Range(-1f, 0f), -currentDirection.y).normalized;
 			}
-			if(sheepCamPos.y < 0f){
-			currentDirection = new Vector2(-currentDirection.x,Random.Range(0f, 1f)).normalized;
+			if (sheepCamPos.y < 0f) {
+				currentDirection = new Vector2(-currentDirection.x, Random.Range(0f, 1f)).normalized;
 			}
-			if(sheepCamPos.y > 1f){
-			currentDirection = new Vector2(-currentDirection.x,Random.Range(-1f, 0f)).normalized;
+			if (sheepCamPos.y > 1f) {
+				currentDirection = new Vector2(-currentDirection.x, Random.Range(-1f, 0f)).normalized;
 			}
 		}
 	}

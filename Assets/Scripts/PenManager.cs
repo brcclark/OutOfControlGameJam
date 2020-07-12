@@ -6,7 +6,7 @@ public class PenManager : MonoBehaviour {
 
 	public int sheepInPenCount = 0;
 
-	public float inPenScoreMultiplyer = 0.1f;
+	public float inPenScoreMultiplyer = 0.5f;
 
 	public float penScore;
 
