@@ -15,6 +15,10 @@ public class AnimalMovement : MonoBehaviour {
 
 	PenManager penManager;
 
+	float barkTimer = 1f;
+	float lastBarkTime = 0;
+	float barkAvoidSpeed = 8;
+
 	float cantEscapeTimer = 0f;
 	float maybeEscapesTimer = 0f;
 	float currentEscapeChance = 0f;
@@ -34,7 +38,7 @@ public class AnimalMovement : MonoBehaviour {
 	Rigidbody2D rb;
 	public LayerMask mask;
 
-	enum SheepState { Sheep_Wander, Sheep_Avoid, Sheep_In_Pen, Sheep_Escaping }
+	enum SheepState { Sheep_Wander, Sheep_Avoid, Sheep_In_Pen, Sheep_Escaping, Sheep_Barked }
 
 	SheepState sheepState;
 	bool exiting = false;
@@ -97,6 +101,18 @@ public class AnimalMovement : MonoBehaviour {
 				//Check to see if we're in the pen
 				InPen();
 				break;
+			case SheepState.Sheep_Barked:
+				//Sheep has been barked at, keep moving until we're done
+				moveSpeed = barkAvoidSpeed;
+				if (lastBarkTime >= barkTimer) {
+					//Done avoiding the bark
+					moveSpeed = originalMoveSpeed;
+					sheepState = SheepState.Sheep_Wander;
+				}
+				else {
+					lastBarkTime += Time.deltaTime;
+				}
+				break;
 			case SheepState.Sheep_In_Pen:
 				//Check to see if we're in the pen
 				InPen();
@@ -133,7 +149,6 @@ public class AnimalMovement : MonoBehaviour {
 
 	void UpdatePosition() {
 		rb.MovePosition(rb.position + currentDirection * moveSpeed * Time.fixedDeltaTime);
-		//Debug.DrawRay(transform.position, currentDirection * penWallDistanceCheck, Color.white);
 	}
 
 	void PlayerVisible() {
@@ -145,11 +160,21 @@ public class AnimalMovement : MonoBehaviour {
 				currentDirection = playerToSheepDir;
 				currentMoveTimer = 0f;
 			}
-			// print(moveSpeed);
 		}
 		else {
 			moveSpeed = originalMoveSpeed;
 			sheepState = SheepState.Sheep_Wander;
+		}
+	}
+	public void HitByBark(Vector3 pos) {
+		//The sheep was hit by a bark
+		if (sheepState == SheepState.Sheep_Wander || sheepState == SheepState.Sheep_Avoid) {
+			//Only do this if we're in the wander state or avoid state (to make sure you can't bark at sheep in the pen)
+			lastBarkTime = 0;
+			currentDirection = (transform.position - pos).normalized;
+			sheepState = SheepState.Sheep_Barked;
+
+			//Will this cause a problem with colliding other sheep?
 		}
 	}
 	//Add potential for the sheep to escape. After a set time, or if the player is within scare distance

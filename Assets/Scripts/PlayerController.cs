@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour {
-	public float playerSpeed = 10f;
+	public float startSpeed = 10f;
 	public float turnSpeed = 8;
 	public float dashAmount = 5;
 
@@ -17,6 +17,14 @@ public class PlayerController : MonoBehaviour {
 
 	AudioSource barkAudio;
 
+	enum PlayerState { Player_Controllable, Player_Chasing };
+	PlayerState playerState;
+
+	Transform squirell;
+	float barkChaseTime;
+	float nextBarkTime;
+
+	Vector3 currentDirection;
 	Vector3 dashDir;
 	float dashCoolDown = 3f;
 	float dashTimer;
@@ -43,15 +51,39 @@ public class PlayerController : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update() {
-		PlayerInput();
-
+		RechargeAbilities();
+		switch (playerState) {
+			case PlayerState.Player_Controllable:
+				PlayerInput();
+				break;
+			case PlayerState.Player_Chasing:
+				currentDirection = (squirell.position - transform.position).normalized;
+				if (barkChaseTime >= nextBarkTime) {
+					nextBarkTime += Random.Range(0.25f, 1.25f);
+					Bark();
+				}
+				else {
+					barkChaseTime += Time.deltaTime;
+				}
+				break;
+		}
+		MovePlayer();
 	}
-
+	public void SquirellSpawned(GameObject squirell) {
+		//Change to the chase state
+		playerState = PlayerState.Player_Chasing;
+		this.squirell = squirell.transform;
+	}
+	public void SquirellLeft() {
+		playerState = PlayerState.Player_Controllable;
+		this.squirell = null;
+	}
 	void PlayerInput() {
 		Vector3 inputDir = new Vector3();
 		switch (playerMovementState) {
 			case PlayerMovementState.Player_Move:
 				inputDir = new Vector3(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0).normalized;
+				currentDirection = inputDir;
 				if (Input.GetButtonDown("Dash") && dashRecharged) {
 					OnDashUsed();
 					dashRecharged = false;
@@ -60,11 +92,7 @@ public class PlayerController : MonoBehaviour {
 					playerMovementState = PlayerMovementState.Player_Dash;
 				}
 				if (Input.GetButtonDown("Bark")) {
-					for (int i = 0; i < 3; i++) {
-						Quaternion rot = Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(inputDir.y, inputDir.x) * 180 / Mathf.PI + 20 * i - 1));
-						Bark b = Instantiate(bark, transform.position, rot);
-					}
-					barkAudio.Play();
+					Bark();
 				}
 				break;
 			case PlayerMovementState.Player_Dash:
@@ -73,11 +101,17 @@ public class PlayerController : MonoBehaviour {
 				playerMovementState = PlayerMovementState.Player_Move;
 				break;
 		}
-		RechargeAbilities();
-		transform.position += inputDir * playerSpeed * Time.deltaTime;
-	}
-	void MovePlayer(Vector3 inputd) {
 
+	}
+	void Bark() {
+		for (int i = 0; i < 3; i++) {
+			Quaternion rot = Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(currentDirection.y, currentDirection.x) * 180 / Mathf.PI + 10 * i - 1));
+			Bark b = Instantiate(bark, transform.position, rot);
+		}
+		barkAudio.Play();
+	}
+	void MovePlayer() {
+		transform.position += currentDirection * startSpeed * Time.deltaTime;
 	}
 
 	IEnumerator Dash() {
