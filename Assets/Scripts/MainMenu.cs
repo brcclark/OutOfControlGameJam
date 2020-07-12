@@ -34,9 +34,11 @@ public class MainMenu : MonoBehaviour
         mainMenu.SetActive(true);
         gameOverMenu.SetActive(false);
     }
+    //Updates the Player Preferences on the computer
     public void UpdateMusicVolume(){
         PlayerPrefs.SetFloat("MusicVolume", musicSlider.value);
     }
+    //need to have the game over trigger GameOverData()
     public void GameOverData(){
         gameOverMenu.SetActive(true);
         finalScore.text = pen.penScore.ToString();
