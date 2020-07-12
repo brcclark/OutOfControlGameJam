@@ -1088,6 +1088,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenu: {fileID: 1186805593}
   optionsMenu: {fileID: 1230355429}
+  musicSlider: {fileID: 1767753909}
 --- !u!4 &888856576
 Transform:
   m_ObjectHideFlags: 0
@@ -1958,7 +1959,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1351687766}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &1351687768
 Camera:
   m_ObjectHideFlags: 0
@@ -2493,4 +2494,15 @@ MonoBehaviour:
   m_Value: 0.5
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 888856575}
+        m_MethodName: UpdateMusicVolume
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
