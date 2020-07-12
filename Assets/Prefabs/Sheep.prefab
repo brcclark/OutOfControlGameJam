@@ -49,9 +49,9 @@ MonoBehaviour:
   moveRate: 0
   moveSpeed: 5
   timeUntilDirChange: 3
-  cantEscapeTime: 4
+  cantEscapeTime: 6
   scareDistance: 10
-  escapeDecayTime: 10
+  escapeDecayTime: 15
   penWallDistanceCheck: 100
   startDirection: {x: 0, y: 0}
   mask:

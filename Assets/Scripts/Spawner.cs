@@ -5,9 +5,11 @@ using UnityEngine;
 public class Spawner : MonoBehaviour {
 
 	public Transform sheep;
-	public Transform squirell;
+	public Transform squirrel;
 	public int startingSheep = 3;
-	public float spawnInterval = 10;
+	public float sheepSpawnInterval = 10;
+
+	public float squirrelSpawnInterval = 30;
 
 	Transform t;
 	float spawnTimer;
@@ -28,7 +30,7 @@ public class Spawner : MonoBehaviour {
 	void SpawnSquirell() {
 		float rotation;
 		rotation = Mathf.Rad2Deg * Mathf.Atan2(Random.Range(-1f, 1f), Random.Range(0f, 1f));
-		Transform sq = Instantiate(squirell, new Vector3(Random.Range(-15f, 15f), Random.Range(-15f, 15f), 0), Quaternion.Euler(0, 0, rotation)) as Transform;
+		Transform sq = Instantiate(squirrel, new Vector3(Random.Range(-15f, 15f), Random.Range(-15f, 15f), 0), Quaternion.Euler(0, 0, rotation)) as Transform;
 		sq.parent = t;
 	}
 
@@ -47,7 +49,7 @@ public class Spawner : MonoBehaviour {
 		}
 	}
 	void CheckSheepSpawner() {
-		if ((spawnTimer < spawnInterval)) {
+		if ((spawnTimer < sheepSpawnInterval)) {
 			spawnTimer += Time.deltaTime + Time.deltaTime * currentDifficulty;
 		}
 		else {
