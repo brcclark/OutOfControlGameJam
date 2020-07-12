@@ -131,7 +131,6 @@ GameObject:
   m_Component:
   - component: {fileID: 209769127}
   - component: {fileID: 209769128}
-  - component: {fileID: 209769129}
   m_Layer: 8
   m_Name: Background
   m_TagString: Untagged
@@ -182,32 +181,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!61 &209769129
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 209769126}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 21.41, y: -1.6977005}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4.16127, y: 22.543266}
-  m_EdgeRadius: 0
 --- !u!1 &296889700
 GameObject:
   m_ObjectHideFlags: 0
@@ -282,7 +255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sheep: {fileID: 570677798649475893, guid: ba9d0e331719bce4287e31c0ff7a7c29, type: 3}
-  startingSheep: 3
+  startingSheep: 1
   spawnInterval: 10
 --- !u!4 &303840556
 Transform:
@@ -533,12 +506,12 @@ PrefabInstance:
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.3
+      value: 3.713003
       objectReference: {fileID: 0}
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -11.55
+      value: -11.63
       objectReference: {fileID: 0}
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
@@ -628,7 +601,7 @@ PrefabInstance:
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.92
+      value: 12.030001
       objectReference: {fileID: 0}
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
@@ -952,7 +925,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 22.19
+  orthographic size: 23.41
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -12459,7 +12432,7 @@ PrefabInstance:
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.54
+      value: 7.8300037
       objectReference: {fileID: 0}
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
@@ -12613,7 +12586,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 12490a17d34320748a629380528478c1, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 0.285
   m_Pitch: 1
   Loop: 0
@@ -12879,7 +12852,7 @@ PrefabInstance:
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.85
+      value: 11.9400015
       objectReference: {fileID: 0}
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
@@ -12974,7 +12947,7 @@ PrefabInstance:
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.69
+      value: 7.900001
       objectReference: {fileID: 0}
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
@@ -13203,7 +13176,7 @@ PrefabInstance:
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.87
+      value: 16.02
       objectReference: {fileID: 0}
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
@@ -13361,21 +13334,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 570677798649475850, guid: ba9d0e331719bce4287e31c0ff7a7c29,
-        type: 3}
-      propertyPath: sheepRadius
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 570677798649475850, guid: ba9d0e331719bce4287e31c0ff7a7c29,
-        type: 3}
-      propertyPath: sheepPosition
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 570677798649475850, guid: ba9d0e331719bce4287e31c0ff7a7c29,
-        type: 3}
-      propertyPath: cantEscapeTime
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 570677798649475851, guid: ba9d0e331719bce4287e31c0ff7a7c29,
         type: 3}
       propertyPath: m_Name
@@ -13463,7 +13421,7 @@ PrefabInstance:
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 3.5231962
+      value: 3.78
       objectReference: {fileID: 0}
     - target: {fileID: 5219565435559600236, guid: 1e41708a3d4b85440b2075718e30bde5,
         type: 3}

@@ -20,11 +20,14 @@ public class PlayerController : MonoBehaviour {
 	float dashTimer;
 	bool dashRecharged = true;
 
+	Rigidbody2D rb;
+
 	enum PlayerMovementState { Player_Move, Player_Dash }
 	PlayerMovementState playerMovementState;
 	// Start is called before the first frame update
 	void Start() {
 		barkAudio = GetComponent<AudioSource>();
+		rb = GetComponent<Rigidbody2D>();
 	}
 
 	void OnTriggerEnter2D(Collider2D col) {
@@ -35,7 +38,7 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void Update() {
+	void FixedUpdate() {
 		PlayerMovement();
 	}
 
@@ -64,12 +67,12 @@ public class PlayerController : MonoBehaviour {
 		}
 		RechargeAbilities();
 
-		transform.position += inputDir * playerSpeed * Time.deltaTime;
+		rb.MovePosition(rb.position + (Vector2)inputDir * playerSpeed * Time.fixedDeltaTime);
+		//transform.position += inputDir * playerSpeed * Time.deltaTime;
 	}
 	IEnumerator Dash() {
-		Vector3 originalPosition = transform.position;
-		Vector3 dashPosition = dashDir * dashAmount;
-		print(dashPosition + originalPosition);
+		Vector2 originalPosition = transform.position;
+		Vector2 dashPosition = dashDir * dashAmount;
 
 		float attackSpeed = 6f;
 		float percent = 0;
@@ -78,7 +81,8 @@ public class PlayerController : MonoBehaviour {
 			percent += Time.deltaTime * attackSpeed;
 			//float interpolation = 4 * (-Mathf.Pow(percent, 2) + percent);
 			//float interpolation = Mathf.Sqrt(percent);
-			transform.position = Vector3.Lerp(originalPosition, dashPosition + originalPosition, percent);
+			//transform.position = Vector3.Lerp(originalPosition, dashPosition + originalPosition, percent);
+			rb.MovePosition(Vector2.Lerp(originalPosition, dashPosition + originalPosition, percent));
 			yield return null;
 		}
 	}

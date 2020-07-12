@@ -31,12 +31,13 @@ public class AnimalMovement : MonoBehaviour {
 	Transform player;
 	Transform pen;
 	Camera cam;
+	Rigidbody2D rb;
 	public LayerMask mask;
 
 	enum SheepState { Sheep_Wander, Sheep_Avoid, Sheep_In_Pen, Sheep_Escaping }
 
 	SheepState sheepState;
-
+	bool exiting = false;
 	bool inPen = false;
 
 	// Start is called before the first frame update
@@ -46,7 +47,7 @@ public class AnimalMovement : MonoBehaviour {
 		pen = GameObject.FindGameObjectWithTag("Pen").transform;
 		penManager = GameObject.FindGameObjectWithTag("Pen").GetComponent<PenManager>();
 		cam = GameObject.FindObjectOfType<Camera>();
-
+		rb = GetComponent<Rigidbody2D>();
 		originalMoveSpeed = moveSpeed;
 		//choose a random start direction
 		startDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
@@ -66,9 +67,18 @@ public class AnimalMovement : MonoBehaviour {
 		}
 	}
 	void OnCollisionEnter2D(Collision2D collision) {
-		if (collision.gameObject.layer == 8) {
-			// print("I ran into something");
+		if (collision.gameObject.layer == 8 && !exiting) {
+			exiting = true;
+			print("FENCE");
 			currentDirection = -currentDirection;
+
+		}
+	}
+
+	void OnCollisionExit2D(Collision2D collision) {
+		if (collision.gameObject.layer == 8 && exiting) {
+			exiting = false;
+			print("NOFENCE");
 		}
 	}
 	// Update is called once per frame
@@ -105,6 +115,10 @@ public class AnimalMovement : MonoBehaviour {
 		OnCamEdge();
 		//Check to see if they collide with something
 		//Update the position
+		// UpdatePosition();
+	}
+
+	void FixedUpdate() {
 		UpdatePosition();
 	}
 
@@ -121,8 +135,8 @@ public class AnimalMovement : MonoBehaviour {
 	}
 
 	void UpdatePosition() {
-		transform.position += (Vector3)currentDirection * moveSpeed * Time.deltaTime;
-		Debug.DrawRay(transform.position, currentDirection * penWallDistanceCheck, Color.white);
+		rb.MovePosition(rb.position + currentDirection * moveSpeed * Time.fixedDeltaTime);
+		//Debug.DrawRay(transform.position, currentDirection * penWallDistanceCheck, Color.white);
 	}
 
 	void PlayerVisible() {
@@ -170,7 +184,7 @@ public class AnimalMovement : MonoBehaviour {
 
 		//pick a new random? direction
 		if (jailbreakDirection != currentDirection) {
-			jailbreakDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+			jailbreakDirection = new Vector2(Random.Range(-1f, 0f), Random.Range(-1f, 1f)).normalized;
 		}
 		currentDirection = jailbreakDirection;
 		//check to see if that will let them out of the pen
