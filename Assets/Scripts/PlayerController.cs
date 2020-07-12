@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour {
 	bool dashRecharged = true;
 
 	Rigidbody2D rb;
+	TrailRenderer tr;
 
 	enum PlayerMovementState { Player_Move, Player_Dash }
 	PlayerMovementState playerMovementState;
@@ -28,6 +29,7 @@ public class PlayerController : MonoBehaviour {
 	void Start() {
 		barkAudio = GetComponent<AudioSource>();
 		rb = GetComponent<Rigidbody2D>();
+		tr = GetComponent<TrailRenderer>();
 	}
 
 	void OnTriggerEnter2D(Collider2D col) {
@@ -38,11 +40,12 @@ public class PlayerController : MonoBehaviour {
 	}
 
 	// Update is called once per frame
-	void FixedUpdate() {
-		PlayerMovement();
+	void Update() {
+		PlayerInput();
+
 	}
 
-	void PlayerMovement() {
+	void PlayerInput() {
 		Vector3 inputDir = new Vector3();
 		switch (playerMovementState) {
 			case PlayerMovementState.Player_Move:
@@ -60,17 +63,19 @@ public class PlayerController : MonoBehaviour {
 				break;
 			case PlayerMovementState.Player_Dash:
 				//This should be more of an animation than a "teleport", should lerp the position i think
-				// transform.position += dashDir * dashAmount;
 				StartCoroutine(Dash());
 				playerMovementState = PlayerMovementState.Player_Move;
 				break;
 		}
 		RechargeAbilities();
-
-		rb.MovePosition(rb.position + (Vector2)inputDir * playerSpeed * Time.fixedDeltaTime);
-		//transform.position += inputDir * playerSpeed * Time.deltaTime;
+		transform.position += inputDir * playerSpeed * Time.deltaTime;
 	}
+	void MovePlayer(Vector3 inputd) {
+
+	}
+
 	IEnumerator Dash() {
+		tr.enabled = true;
 		Vector2 originalPosition = transform.position;
 		Vector2 dashPosition = dashDir * dashAmount;
 
@@ -81,10 +86,11 @@ public class PlayerController : MonoBehaviour {
 			percent += Time.deltaTime * attackSpeed;
 			//float interpolation = 4 * (-Mathf.Pow(percent, 2) + percent);
 			//float interpolation = Mathf.Sqrt(percent);
-			//transform.position = Vector3.Lerp(originalPosition, dashPosition + originalPosition, percent);
-			rb.MovePosition(Vector2.Lerp(originalPosition, dashPosition + originalPosition, percent));
+			transform.position = Vector3.Lerp(originalPosition, dashPosition + originalPosition, percent);
+
 			yield return null;
 		}
+		tr.enabled = false;
 	}
 	void RechargeAbilities() {
 		RechargeDash();
