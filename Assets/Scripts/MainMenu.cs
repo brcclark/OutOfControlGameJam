@@ -40,6 +40,9 @@ public class MainMenu : MonoBehaviour
     }
     //need to have the game over trigger GameOverData()
     public void GameOverData(){
+        SceneManager.LoadScene("MainMenu");
+        mainMenu.SetActive(false);
+        optionsMenu.SetActive(false);
         gameOverMenu.SetActive(true);
         finalScore.text = pen.penScore.ToString();
     }
