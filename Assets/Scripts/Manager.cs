@@ -4,7 +4,8 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Manager : MonoBehaviour {
-	public Transform[] flowers;
+	public Transform flowerPrefab;
+	public Transform flowerSpawn;
 
 	public Text gameScoreUI;
 
@@ -20,9 +21,19 @@ public class Manager : MonoBehaviour {
 		Game_Over
 	}
 
+	int flowerCount = 100;
+
 	void Start() {
 		State = GameState.Playing;
 		pen = GameObject.FindWithTag("Pen").GetComponent<PenManager>();
+		SpawnFlowers();
+	}
+	void SpawnFlowers() {
+		for (int i = 0; i < flowerCount; i++) {
+			Transform t = Instantiate(flowerPrefab, new Vector3(Random.Range(-40, 25), Random.Range(-22, 22), 0), Quaternion.identity);
+			t.GetComponent<Flower>().OnDeath += FlowerRemoved;
+			t.parent = flowerSpawn;
+		}
 	}
 	// Update is called once per frame
 	void Update() {
@@ -32,6 +43,12 @@ public class Manager : MonoBehaviour {
 		if (State == GameState.Playing) {
 			score = pen.penScore;
 			gameScoreUI.text = score.ToString();
+		}
+	}
+	void FlowerRemoved() {
+		flowerCount--;
+		if (flowerCount <= 0) {
+			print("Game Over!");
 		}
 	}
 	void StateMachine() {
