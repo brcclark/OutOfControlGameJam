@@ -69,16 +69,13 @@ public class AnimalMovement : MonoBehaviour {
 	void OnCollisionEnter2D(Collision2D collision) {
 		if (collision.gameObject.layer == 8 && !exiting) {
 			exiting = true;
-			print("FENCE");
 			currentDirection = -currentDirection;
-
 		}
 	}
 
 	void OnCollisionExit2D(Collision2D collision) {
 		if (collision.gameObject.layer == 8 && exiting) {
 			exiting = false;
-			print("NOFENCE");
 		}
 	}
 	// Update is called once per frame
@@ -194,6 +191,7 @@ public class AnimalMovement : MonoBehaviour {
 		}
 	}
 	bool placid = false;
+	Collision2D insideCollide;
 	void InPen() {
 		if (inPen) {
 			if (sheepState != SheepState.Sheep_In_Pen) {
@@ -204,8 +202,11 @@ public class AnimalMovement : MonoBehaviour {
 			sheepState = SheepState.Sheep_In_Pen;
 			placidSheep += Time.deltaTime;
 			if (placidSheep >= 3f) {
-				currentDirection = Vector2.zero;
+				currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
 				placid = true;
+			}
+
+			if (placid) {
 			}
 
 			if ((Vector2.Distance(transform.position, pen.position) > 0.1f) && !placid) {
