@@ -5,9 +5,9 @@ using UnityEngine;
 public class Spawner : MonoBehaviour {
 
 	public Transform sheep;
+	public Transform squirell;
 	public int startingSheep = 3;
 	public float spawnInterval = 10;
-
 
 	Transform t;
 	float spawnTimer;
@@ -20,6 +20,12 @@ public class Spawner : MonoBehaviour {
 		for (int i = 0; i < startingSheep; i++) {
 			SpawnSheep();
 		}
+		SpawnSquirell();
+	}
+
+	void SpawnSquirell() {
+		Transform sq = Instantiate(squirell, new Vector3(Random.Range(-15f, 15f), Random.Range(-15f, 15f), 0), Quaternion.identity) as Transform;
+		sq.parent = t;
 	}
 
 	void SpawnSheep() {
