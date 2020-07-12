@@ -6,13 +6,13 @@ public class Squirell : MonoBehaviour {
 	public PlayerController player;
 
 	float speed = 15f;
-	Renderer renderer;
+	Renderer r;
 	bool inScene = false;
 	// Start is called before the first frame update
 	void Start() {
 		if (player == null)
 			player = FindObjectOfType<PlayerController>();
-		renderer = GetComponentInChildren<Renderer>();
+		r = GetComponentInChildren<Renderer>();
 		Spawned();
 	}
 	void Spawned() {
@@ -28,7 +28,7 @@ public class Squirell : MonoBehaviour {
 		if (inScene)
 			CheckOffScreen();
 		else {
-			if (renderer.isVisible) {
+			if (r.isVisible) {
 				inScene = true;
 			}
 		}
@@ -36,7 +36,7 @@ public class Squirell : MonoBehaviour {
 	}
 	void CheckOffScreen() {
 		//Check to see if we're off the screen, if so, destroythe object and tell the player we're gone
-		if (!renderer.isVisible) {
+		if (!r.isVisible) {
 			player.SquirellLeft();
 			Destroy(gameObject);
 		}
