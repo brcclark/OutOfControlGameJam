@@ -1351,9 +1351,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sheep: {fileID: 570677798649475893, guid: ba9d0e331719bce4287e31c0ff7a7c29, type: 3}
-  squirell: {fileID: 920963969856491496, guid: c5cf4f9385bd7d746b139405171f93ce, type: 3}
+  squirrel: {fileID: 920963969856491496, guid: c5cf4f9385bd7d746b139405171f93ce, type: 3}
   startingSheep: 1
-  spawnInterval: 15
+  sheepSpawnInterval: 10
+  squirrelSpawnInterval: 30
 --- !u!4 &303840556
 Transform:
   m_ObjectHideFlags: 0
