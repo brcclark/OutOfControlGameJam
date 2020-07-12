@@ -10,6 +10,8 @@ public class PlayerController : MonoBehaviour {
 	public System.Action OnDashUsed;
 	public System.Action OnDashReady;
 
+	public Bark bark;
+
 	public System.Action OnBarkUsed;
 	public System.Action OnBarkReady;
 
@@ -58,6 +60,10 @@ public class PlayerController : MonoBehaviour {
 					playerMovementState = PlayerMovementState.Player_Dash;
 				}
 				if (Input.GetButtonDown("Bark")) {
+					for (int i = 0; i < 3; i++) {
+						Quaternion rot = Quaternion.Euler(new Vector3(0, 0, Mathf.Atan2(inputDir.y, inputDir.x) * 180 / Mathf.PI + 20 * i - 1));
+						Bark b = Instantiate(bark, transform.position, rot);
+					}
 					barkAudio.Play();
 				}
 				break;
