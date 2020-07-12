@@ -8,7 +8,14 @@ public class MainMenu : MonoBehaviour
 {
     public GameObject mainMenu;
     public GameObject optionsMenu;
+    public GameObject gameOverMenu;
     public Slider musicSlider;
+    public Text finalScore;
+    PenManager pen;
+    void Start(){
+        pen = GameObject.FindWithTag("Pen").GetComponent<PenManager>();
+        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0.75f);
+    }
     public void PlayGame(){
         SceneManager.LoadScene("GameScene");
     }
@@ -23,11 +30,16 @@ public class MainMenu : MonoBehaviour
         mainMenu.SetActive(true);
         optionsMenu.SetActive(false);
     }
+    public void ToMainMenu(){
+        mainMenu.SetActive(true);
+        gameOverMenu.SetActive(false);
+    }
     public void UpdateMusicVolume(){
         PlayerPrefs.SetFloat("MusicVolume", musicSlider.value);
     }
-    void Start(){
-        musicSlider.value = PlayerPrefs.GetFloat("MusicVolume", 0.75f);
+    public void GameOverData(){
+        gameOverMenu.SetActive(true);
+        finalScore.text = pen.penScore.ToString();
     }
 }
 
