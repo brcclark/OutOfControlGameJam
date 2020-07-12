@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class Manager : MonoBehaviour {
 	public Transform flowerPrefab;
 	public Transform flowerSpawn;
+	public GameOverMenu menu;
 
 	public Text gameScoreUI;
 
@@ -37,7 +38,11 @@ public class Manager : MonoBehaviour {
 	}
 	// Update is called once per frame
 	void Update() {
+		StateMachine();
 		UpdateScore();
+		if (Input.GetKeyDown(KeyCode.P)) {
+			menu.GameOverData();
+		}
 	}
 	void UpdateScore() {
 		if (State == GameState.Playing) {
@@ -48,11 +53,18 @@ public class Manager : MonoBehaviour {
 	void FlowerRemoved() {
 		flowerCount--;
 		if (flowerCount <= 0) {
-			print("Game Over!");
+			menu.GameOverData();
 		}
 	}
 	void StateMachine() {
-
+		switch (State) {
+			case GameState.Menu:
+				break;
+			case GameState.Playing:
+				break;
+			case GameState.Game_Over:
+				break;
+		}
 	}
 
 }
