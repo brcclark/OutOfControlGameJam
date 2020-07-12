@@ -67,6 +67,8 @@ public class PlayerController : MonoBehaviour {
 				}
 				break;
 		}
+	}
+	void FixedUpdate() {
 		MovePlayer();
 	}
 	public void SquirellSpawned(GameObject squirell) {
@@ -101,7 +103,6 @@ public class PlayerController : MonoBehaviour {
 				playerMovementState = PlayerMovementState.Player_Move;
 				break;
 		}
-
 	}
 	void Bark() {
 		for (int i = 0; i < 3; i++) {
@@ -111,7 +112,8 @@ public class PlayerController : MonoBehaviour {
 		barkAudio.Play();
 	}
 	void MovePlayer() {
-		transform.position += currentDirection * startSpeed * Time.deltaTime;
+		rb.MovePosition(rb.position + (Vector2)currentDirection * startSpeed * Time.fixedDeltaTime);
+		// transform.position += currentDirection * startSpeed * Time.deltaTime;
 	}
 
 	IEnumerator Dash() {
