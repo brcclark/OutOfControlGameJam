@@ -6,7 +6,7 @@ public class AnimalMovement : MonoBehaviour {
 	public float moveRate;
 	public float moveSpeed = 5f;
 	//for Sheep timer to change direction
-	public float timeUntilDirChange = 3f;
+	public float outOfPenTimeUntilDirChange = 3f;
 	public float cantEscapeTime = 2f;
 	public float scareDistance = 10f;
 	public float escapeDecayTime = 10f;
@@ -18,7 +18,8 @@ public class AnimalMovement : MonoBehaviour {
 	float barkTimer = 1f;
 	float lastBarkTime = 0;
 	float barkAvoidSpeed = 8;
-
+	float inPenTimeUntilDirChange = 1f;
+	float timeUntilDirChange = 0f;
 	float cantEscapeTimer = 0f;
 	float maybeEscapesTimer = 0f;
 	float currentEscapeChance = 0f;
@@ -136,6 +137,12 @@ public class AnimalMovement : MonoBehaviour {
 	}
 
 	void RandomPositionTimer() {
+		if(sheepState == SheepState.Sheep_Wander){
+			timeUntilDirChange = outOfPenTimeUntilDirChange;
+		}
+		if(sheepState == SheepState.Sheep_In_Pen){
+			timeUntilDirChange = inPenTimeUntilDirChange;
+		}
 		if ((currentMoveTimer < timeUntilDirChange) && !inPen) {
 			currentMoveTimer += Time.deltaTime;
 		}
@@ -227,7 +234,7 @@ public class AnimalMovement : MonoBehaviour {
 			sheepState = SheepState.Sheep_In_Pen;
 			placidSheep += Time.deltaTime;
 			if (placidSheep >= 3f) {
-				currentDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f)).normalized;
+				RandomPositionTimer();
 				placid = true;
 			}
 
